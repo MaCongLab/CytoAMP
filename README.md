@@ -67,3 +67,12 @@ And the file combined_dataset_gpt-5.txt contains the labels assigned by GPT-5-mi
 ```
 The python script ```preprocess.py``` can be used to generate a .tsv file ```dataset_total.tsv``` that combines the sequence and labels in those two files together, and then split it into ```train_total.csv```, ```valid.csv``` and ```test.csv```. Which can be used for model training and evaluation.
 
+## How to use CytoAMP Model?
+
+The codes that related to the model are as follows:
+1. ```Dataset_esm3.py```: Contains the Dataset class to load the sequence during the model training.
+2. ```model.py```: Contains the Constructed Deep-learning-based Model 
+3. ```train.py```: script to train the model and evaluate on the valid dataset
+4. ```test.py```: script to test the model and output the evaluation metrics.
+
+## Environment Preparaion
