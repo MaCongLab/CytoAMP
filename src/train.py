@@ -17,8 +17,6 @@ from torch.amp import autocast,GradScaler
 from transformers import AutoModelForMaskedLM
 model = AutoModelForMaskedLM.from_pretrained('Synthyra/ESMplusplus_large', trust_remote_code=True)
 tokenizer = model.tokenizer
-import pandas as pd
-from collections import defaultdict
 
 def loss_func(metric,out_final,label):
     out_final = metric(out_final,label)
@@ -49,20 +47,33 @@ def collat_fn(batch):
 
 
 if __name__ == '__main__':
-    # shutil.rmtree('pep_toxin'
-    exp_name = 'toxicity_model_final'
-    writer = SummaryWriter(f'{exp_name}')
-    params = {'batch_size': 256,
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--epochs', type=int, default=100, help='number of epochs')
+    parser.add_argument('--save_k', type=int, default=10, help='save model for every k epochs')
+    parser.add_argument('--batch_size', type=int, default=256, help='batch size')
+    parser.add_argument('--lr', type=float, default=0.001, help='learning rate')
+    parser.add_argument('--weight_decay', type=float, default=1e-4, help='weight decay')
+    parser.add_argument('--device', type=str, default='cuda', help='device')
+    parser.add_argument('--train_data_path', type=str, default='../data/train_total.csv', help='train data path')
+    parser.add_argument('--valid_data_path', type=str, default='../data/valid.csv', help='valid data path')
+    parser.add_argument('--feat_dim', type=int, default=128, help='feature dimension')
+    parser.add_argument('--exp_name', type=str, default='toxicity_model', help='the name of your experiment')
+    args = parser.parse_args()
+
+    exp_name = parser.exp_name
+    writer = SummaryWriter(f'logs/{exp_name}')
+    params = {'batch_size': args.batch_size,
               'shuffle': True,
               'num_workers':0}
     valid_params = {'batch_size': 128,
               'shuffle': False,
               'num_workers': 0}
     device = 'cuda'
-    every_k = 10
-    epochs = 400
-    train_data_path = f"train_total.csv"
-    valid_data_path = f"valid.csv"
+    every_k = args.save_k
+    epochs = args.epochs
+
+    train_data_path = args.train_data_path
+    valid_data_path = args.valid_data_path
     save_folder = f'save_models/{exp_name}/'
     if not os.path.exists(save_folder):
         os.makedirs(save_folder)
@@ -75,7 +86,7 @@ if __name__ == '__main__':
     model = Prot_model(feat_dim=128,aac_emb_dim=512,class_num=2).to(device)
     model.esm_model.eval()
     criteria = nn.CrossEntropyLoss()
-    opt = torch.optim.AdamW(params=filter(lambda p: p.requires_grad, model.parameters()), lr=1e-4, betas=(0.9, 0.999),weight_decay=1e-5)
+    opt = torch.optim.AdamW(params=filter(lambda p: p.requires_grad, model.parameters()), lr=args.lr, betas=(0.9, 0.999),weight_decay=args.weight_decay)
     global_counter = 0
     lr_scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer=opt,gamma=0.95)
     best_valid_f1 = 0
@@ -136,6 +147,7 @@ if __name__ == '__main__':
             if f1_score_num > best_valid_f1:
                 best_valid_f1 = f1_score_num
                 torch.save(model.state_dict(), f'{save_folder}var_model_best.ckpt')
-            torch.save(model.state_dict(), f'{save_folder}var_model_ep_{ep}.ckpt')
+            if ep % every_k == 0:
+                torch.save(model.state_dict(), f'{save_folder}var_model_ep_{ep}.ckpt')
 
 
