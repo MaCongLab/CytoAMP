@@ -78,7 +78,7 @@ if __name__ == '__main__':
     opt = torch.optim.AdamW(params=filter(lambda p: p.requires_grad, model.parameters()), lr=1e-4, betas=(0.9, 0.999),weight_decay=1e-5)
     global_counter = 0
     lr_scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer=opt,gamma=0.95)
-    best_valid_acc = 0
+    best_valid_f1 = 0
     scaler = GradScaler()
     for ep in range(epochs):
         if ep % 10 == 0 and ep > 0:
@@ -133,8 +133,8 @@ if __name__ == '__main__':
             writer.add_scalar('Valid/test_auc', hit_len/total_num, ep)
             writer.add_scalar('Valid/f1', f1_score_num, ep)
             writer.add_scalar('Valid/roc_score', auc_score, ep)
-            if f1_score_num > best_valid_acc:
-                best_valid_acc = f1_score_num
+            if f1_score_num > best_valid_f1:
+                best_valid_f1 = f1_score_num
                 torch.save(model.state_dict(), f'{save_folder}var_model_best.ckpt')
             torch.save(model.state_dict(), f'{save_folder}var_model_ep_{ep}.ckpt')
 
