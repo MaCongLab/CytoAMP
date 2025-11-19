@@ -76,3 +76,11 @@ The codes that related to the model are as follows:
 4. ```test.py```: script to test the model and output the evaluation metrics.
 
 ## Environment Preparaion
+The environment can be created by using conda:
+
+```conda create -n CytoAMP python=3.9```
+
+And the packages needed can be installed using pip:
+
+```pip install -r requirements.txt```
+
