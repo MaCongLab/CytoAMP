@@ -68,7 +68,7 @@ if __name__ == '__main__':
     valid_params = {'batch_size': 128,
               'shuffle': False,
               'num_workers': 0}
-    device = 'cuda'
+    device = args.device
     every_k = args.save_k
     epochs = args.epochs
 
@@ -101,11 +101,11 @@ if __name__ == '__main__':
         for batch in tqdm(train_generator):
             # print(ba)
             batch_seq_id,attention_mask,batch_label,tokenized_for_cnn = batch
-            batch_seq_id = batch_seq_id.to('cuda')
-            attention_mask = attention_mask.to('cuda')
-            tokenized_for_cnn = tokenized_for_cnn.cuda()
-            label = batch_label.cuda()
-            with autocast('cuda'):
+            batch_seq_id = batch_seq_id.to(device)
+            attention_mask = attention_mask.to(device)
+            tokenized_for_cnn = tokenized_for_cnn.to(device)
+            label = batch_label.to(device)
+            with autocast(device):
                 out_final = model(batch_seq_id,attention_mask,tokenized_for_cnn)
                 cost = loss_func(criteria,out_final,label)
             tmpcost = cost.cpu().item()
@@ -124,10 +124,10 @@ if __name__ == '__main__':
             pred_lst = []
             for batch in tqdm(valid_generator):
                 batch_seq, attention_mask,batch_label,tokenized_for_cnn = batch
-                label = batch_label.cuda()
-                batch_seq_id = batch_seq.cuda()
-                attention_mask = batch_seq.cuda()
-                tokenized_for_cnn = tokenized_for_cnn.cuda()
+                label = batch_label.to(device)
+                batch_seq_id = batch_seq.to(device)
+                attention_mask = batch_seq.to(device)
+                tokenized_for_cnn = tokenized_for_cnn.to(device)
                 out_final = model(batch_seq_id,attention_mask,tokenized_for_cnn)
                 pred_lst.append(out_final[:,1])
                 pred = torch.argmax(out_final,dim=-1)
