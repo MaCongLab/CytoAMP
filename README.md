@@ -75,6 +75,19 @@ The codes that related to the model are as follows:
 3. ```train.py```: script to train the model and evaluate on the valid dataset
 4. ```test.py```: script to test the model and output the evaluation metrics.
 
+The parameter of training is as follows:
+| Parameter    | Default Value | Meaning| 
+| -------- | ------- | ------- |
+| epochs  | 100   | Number of training epochs    |
+| save_k | 10    | Save model for every k epochs    |
+| batch_size    | 256    | the size of batch for training    |
+| lr    | 1e-3    | learning rate |
+| device    | cuda  | using cuda or cpu|
+| weight_decay    | 1e-4   |weight decay parameter for Adam optimizer|
+| train_data_path    | ../data/train_total.csv  |The place where train set is placed|
+| valid_data_path    | ../data/valid.csv  |The place where valid set is placed|
+| feat_dim| 512 | The feature dimension of the amino acid embedding|
+| exp_name| toxicity_model| The name of the experiment|
 ## Environment Preparaion
 The environment can be created by using conda:
 
