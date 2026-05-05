@@ -126,7 +126,7 @@ if __name__ == '__main__':
                 batch_seq, attention_mask,batch_label,tokenized_for_cnn = batch
                 label = batch_label.to(device)
                 batch_seq_id = batch_seq.to(device)
-                attention_mask = batch_seq.to(device)
+                attention_mask = attention_mask.to(device)
                 tokenized_for_cnn = tokenized_for_cnn.to(device)
                 out_final = model(batch_seq_id,attention_mask,tokenized_for_cnn)
                 pred_lst.append(out_final[:,1])
