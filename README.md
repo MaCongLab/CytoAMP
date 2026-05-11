@@ -3,7 +3,7 @@ A dataset for cytotoxicity of AMPs
 ## What is CHAMP?
 CHAMP is a dataset for the AMP toxicity prediction constructed based on the public databases. It is focused on labelling the toxicity based on the experimental assays. It also contains a code for building a deep-learning-based model for toxicity prediction. 
 <div align = "center"> 
-<img src="/images/CytoAMP.png" width="50%" alt="CytoAMP" align='middle'>
+<img src="/images/CHAMP.png" width="50%" alt="CHAMP" align='middle'>
 </div>
 
 ## The structure of this project
