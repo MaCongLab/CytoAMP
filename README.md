@@ -1,7 +1,7 @@
-# CytoAMP
+# CHAMP
 A dataset for cytotoxicity of AMPs 
-## What is CytoAMP?
-CytoAMP is a dataset for the AMP cytotoxicity prediction constructed based on the public databases. It is focused on labelling the cytotoxicity based on the experimental assays. It also contains a code for building a deep-learning-based model for cytotoxicity prediction. 
+## What is CHAMP?
+CHAMP is a dataset for the AMP toxicity prediction constructed based on the public databases. It is focused on labelling the toxicity based on the experimental assays. It also contains a code for building a deep-learning-based model for toxicity prediction. 
 <div align = "center"> 
 <img src="/images/CytoAMP.png" width="50%" alt="CytoAMP" align='middle'>
 </div>
@@ -23,6 +23,9 @@ CytoAMP is a dataset for the AMP cytotoxicity prediction constructed based on th
 │   ├── preprocess.py
 │   ├── test.py
 │   ├── train.py
+|   ├── gpt_predict.py
+|   ├── prompt.py
+|   ├── utils.py
 │   └── vocab.txt
 └── images
 
@@ -32,8 +35,8 @@ This project holds three dirs:
 2. ```/src``` directory holds the codes used for generating the dataset and model construction.
 3. ```/images``` the resources files for readme.
 
-## How to use CytoAMP?
-The CytoAMP dataset contains two parts, the first one is the experiment assays of the peptide and the second one is the label assigned by GPT-5-mini based on the experiment assays.
+## How to use CHAMP?
+The CHAMP dataset contains two parts, the first one is the experiment assays of the peptide and the second one is the label assigned by GPT-5-mini based on the experiment assays.
 In our repo, combined_dataset.txt is the file containing all the experimental assays, with each line a json string for one AMP. The json format is as follows:
 ```json
 {
