@@ -1,5 +1,5 @@
 # CHAMP
-A dataset for cytotoxicity of AMPs 
+A dataset for toxicity of AMPs 
 ## What is CHAMP?
 CHAMP is a dataset for the AMP toxicity prediction constructed based on the public databases. It is focused on labelling the toxicity based on the experimental assays. It also contains a code for building a deep-learning-based model for toxicity prediction. 
 <div align = "center"> 
@@ -41,7 +41,7 @@ In our repo, combined_dataset.txt is the file containing all the experimental as
 ```json
 {
     "sequence": "GIWDTIKSMGKVFAGKILQNL",
-    "cytotoxicity assays": [
+    "toxicity assays": [
         {
             "targetCell": "Human erythrocytes",
             "concentration": "90",
@@ -59,18 +59,18 @@ In our repo, combined_dataset.txt is the file containing all the experimental as
 ```
 And the file combined_dataset_gpt-5.txt contains the labels assigned by GPT-5-mini, with each row corresponding to the AMP in combined_dataset.txt.
 ```html
-<result>cytotoxic</result>
-<result>cytotoxic</result>
-<result>cytotoxic</result>
-<result>cytotoxic</result>
+<result>toxic</result>
+<result>toxic</result>
+<result>toxic</result>
+<result>toxic</result>
 <result>unknown</result>
 <result>unknown</result>
-<result>cytotoxic</result>
-<result>cytotoxic</result>
+<result>toxic</result>
+<result>toxic</result>
 ```
 The python script ```preprocess.py``` can be used to generate a .tsv file ```dataset_total.tsv``` that combines the sequence and labels in those two files together, and then split it into ```train_total.csv```, ```valid.csv``` and ```test.csv```. Which can be used for model training and evaluation.
 
-## How to use CytoAMP Model?
+## How to use CHAMP Model?
 
 The codes that related to the model are as follows:
 1. ```Dataset_esm3.py```: Contains the Dataset class to load the sequence during the model training.
@@ -94,7 +94,7 @@ The parameter of training is as follows:
 ## Environment Preparaion
 The environment can be created by using conda:
 
-```conda create -n CytoAMP python=3.9```
+```conda create -n CHAMP python=3.9```
 
 And the packages needed can be installed using pip:
 
